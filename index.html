@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>حصن المسلم</title>
+  <script>
+    (function () {
+      var t = localStorage.getItem("athkar-theme");
+      if (t !== "light" && t !== "dark") {
+        var h = new Date().getHours();
+        t = h >= 6 && h < 18 ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Noto+Kufi+Arabic:wght@600;700&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root,
+    html[data-theme="dark"] {
+      --gold: #d4af37;
+      --orange: #ff7a18;
+      --text: #ecfdf5;
+      --muted: rgba(167, 243, 208, 0.85);
+      --card: rgba(22, 36, 29, 0.82);
+      --card-border: rgba(212, 175, 55, 0.22);
+      --btn-text: #fde68a;
+      --btn-border: rgba(212, 175, 55, 0.32);
+      --suggest: rgba(249, 115, 22, 0.14);
+      --badge-bg: rgba(251, 191, 36, 0.15);
+      --badge-text: #fcd34d;
+      --count-bg: rgba(16, 185, 129, 0.15);
+      --count-text: #6ee7b7;
+      --ghost: #34d399;
+      --line: rgba(6, 78, 59, 0.6);
+      --counter-bg: rgba(6, 78, 59, 0.6);
+      --index-bg: rgba(2, 44, 34, 0.8);
+      --logo-ring: #d4af37;
+      --logo-fill: #0b1611;
+      --title-stroke: #000;
+      --bg0: #13221b;
+      --bg1: #070d0b;
+      --dot: #d4af37;
+      --fab-bg: rgba(15, 28, 22, 0.92);
+      --fab-border: rgba(212, 175, 55, 0.35);
+    }
+    html[data-theme="light"] {
+      --text: #1b2a22;
+      --muted: #3f6b52;
+      --card: rgba(255, 252, 246, 0.94);
+      --card-border: rgba(180, 130, 40, 0.28);
+      --btn-text: #3a2a10;
+      --btn-border: rgba(180, 120, 30, 0.35);
+      --suggest: rgba(255, 140, 40, 0.16);
+      --badge-bg: rgba(234, 88, 12, 0.12);
+      --badge-text: #c2410c;
+      --count-bg: rgba(5, 122, 85, 0.12);
+      --count-text: #047857;
+      --ghost: #0f766e;
+      --line: rgba(180, 150, 90, 0.35);
+      --counter-bg: rgba(236, 253, 245, 0.9);
+      --index-bg: #ecfdf5;
+      --logo-ring: #c08408;
+      --logo-fill: #102018;
+      --title-stroke: #3b2108;
+      --bg0: #f4ead3;
+      --bg1: #e7d7b5;
+      --dot: #b45309;
+      --fab-bg: rgba(255, 252, 246, 0.95);
+      --fab-border: rgba(180, 120, 30, 0.35);
+      --orange: #ea580c;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: radial-gradient(circle at center, var(--bg0) 0%, var(--bg1) 100%);
+      transition: background 0.35s ease, color 0.25s ease;
+    }
+    .bg-dots {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+    .theme-fab {
+      position: fixed;
+      top: 0.9rem;
+      left: 0.9rem;
+      z-index: 40;
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.25rem;
+      border-radius: 999px;
+      border: 1px solid var(--fab-border);
+      background: var(--fab-bg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    }
+    .theme-fab button {
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .theme-fab button.is-on {
+      background: var(--orange);
+      color: #fff;
+    }
+    .view {
+      width: 100%;
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 1.25rem;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .view.list-view {
+      align-items: flex-start;
+      padding-top: 1.5rem;
+      padding-bottom: 2rem;
+    }
+    .center-enter {
+      opacity: 0;
+      transform: scale(0.65);
+      pointer-events: none;
+    }
+    .center-active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease-out;
+    }
+    .center-exit {
+      opacity: 0;
+      transform: scale(0.65);
+      pointer-events: none;
+      transition: transform 0.4s cubic-bezier(0.7, 0, 0.84, 0), opacity 0.3s ease-in;
+    }
+    .hidden { display: none !important; }
+    .glass-card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+      border-radius: 1.5rem;
+      padding: 1.75rem 1.5rem;
+      width: 100%;
+    }
+    .logo-circle {
+      width: 7.6rem;
+      height: 7.6rem;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--logo-ring);
+      box-shadow:
+        0 0 0 4px rgba(0, 0, 0, 0.18),
+        0 10px 24px rgba(0, 0, 0, 0.28);
+      background: var(--logo-fill);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-circle img {
+      width: 74%;
+      height: 74%;
+      object-fit: contain;
+      margin: 0;
+      display: block;
+    }
+    .brand-title {
+      font-family: 'Noto Kufi Arabic', sans-serif;
+      font-size: clamp(1.85rem, 7vw, 2.45rem);
+      font-weight: 700;
+      line-height: 1.55;
+      color: var(--orange);
+      text-align: center;
+      margin: 0 0 0.35rem;
+      -webkit-text-stroke: 0.03em var(--title-stroke);
+      paint-order: stroke fill;
+      text-shadow:
+        1px 1px 0 var(--title-stroke),
+        -1px 1px 0 var(--title-stroke),
+        1px -1px 0 var(--title-stroke),
+        -1px -1px 0 var(--title-stroke);
+    }
+    .time-line {
+      text-align: center;
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin: 0 0 1.4rem;
+      font-weight: 600;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .menu-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-radius: 1rem;
+      border: 1px solid var(--btn-border);
+      background: transparent;
+      color: var(--btn-text);
+      font: inherit;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .menu-btn:active { transform: scale(0.97); }
+    .menu-btn.is-suggested,
+    .menu-btn:hover {
+      background: var(--suggest);
+      border-color: var(--orange);
+    }
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--btn-border);
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      white-space: nowrap;
+    }
+    .menu-btn-count {
+      min-width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      background: var(--count-bg);
+      color: var(--count-text);
+      border: 1px solid transparent;
+    }
+    .menu-btn-title {
+      text-align: right;
+      flex: 1;
+      line-height: 1.6;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .ghost-btn {
+      background: none;
+      border: 0;
+      color: var(--ghost);
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .section-title {
+      margin: 0;
+      font-family: 'Noto Kufi Arabic', sans-serif;
+      font-size: 1.05rem;
+      color: var(--btn-text);
+      font-weight: 700;
+    }
+    .other-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .dhikr-card {
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .dhikr-title {
+      font-size: 0.92rem;
+      color: var(--orange);
+      margin: 0 0 0.75rem;
+      text-align: center;
+      font-weight: 700;
+    }
+    .dhikr-text {
+      font-family: 'Noto Naskh Arabic', serif;
+      font-size: clamp(1.28rem, 4.6vw, 1.7rem);
+      line-height: 2.05;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 0.85rem;
+      font-weight: 600;
+    }
+    .dhikr-note {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 600;
+    }
+    .counter-btn,
+    .next-btn {
+      font: inherit;
+      cursor: pointer;
+    }
+    .counter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--counter-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 0.45rem 1.1rem;
+      font-weight: 700;
+    }
+    .counter-btn strong {
+      color: var(--orange);
+      font-size: 1.1rem;
+    }
+    .next-btn {
+      width: 100%;
+      margin-top: 0.85rem;
+      padding: 0.9rem 1.25rem;
+      border: 0;
+      border-radius: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      box-shadow: 0 10px 20px rgba(69, 26, 3, 0.2);
+    }
+    .next-btn:active { transform: scale(0.97); }
+    .footer-actions {
+      border-top: 1px solid var(--line);
+      padding-top: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .index-badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: var(--index-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--count-text);
+      direction: ltr;
+      font-weight: 700;
+    }
+    #dhikrView {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      max-width: none;
+    }
+    #dhikrView .glass-card {
+      max-width: 36rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-dots"></div>
+  <div class="theme-fab" role="group" aria-label="اختيار الوضع">
+    <button id="dayBtn" type="button" onclick="setTheme('light')">نهاري</button>
+    <button id="nightBtn" type="button" onclick="setTheme('dark')">ليلي</button>
+  </div>
+
+  <div id="homeView" class="view center-active">
+    <div class="glass-card">
+      <div class="logo-circle">
+        <img src="icons/adhkar-logo.png?v=3" alt="أذكاري" width="180" height="180" />
+      </div>
+      <h1 class="brand-title">حصن المسلم</h1>
+      <p id="timeSuggestion" class="time-line">جاري تحديد الوقت الأنسب لك...</p>
+      <div class="menu">
+        <button id="morningBtn" class="menu-btn" type="button" onclick="selectSection('morning')">
+          <span>أذكار الصباح</span>
+          <span id="morningBadge" class="badge hidden">الوقت الحالي</span>
+        </button>
+        <button id="eveningBtn" class="menu-btn" type="button" onclick="selectSection('evening')">
+          <span>أذكار المساء</span>
+          <span id="eveningBadge" class="badge hidden">الوقت الحالي</span>
+        </button>
+        <button class="menu-btn" type="button" onclick="openOthers()">
+          <span>أذكار أخرى</span>
+          <span class="badge">الفهرس</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="otherView" class="view list-view center-enter hidden">
+    <div class="glass-card">
+      <div class="top-bar">
+        <button class="ghost-btn" type="button" onclick="backToHome()">← الرجوع</button>
+        <h2 class="section-title">أذكار أخرى</h2>
+      </div>
+      <div id="otherList" class="other-list"></div>
+    </div>
+  </div>
+
+  <div id="dhikrView" class="view center-enter hidden">
+    <div class="glass-card dhikr-card">
+      <div>
+        <div class="top-bar">
+          <button class="ghost-btn" type="button" onclick="backFromDhikr()">✕ الخروج</button>
+          <span id="dhikrIndexBadge" class="index-badge">1 / 1</span>
+        </div>
+        <p id="dhikrTitle" class="dhikr-title"></p>
+        <div id="dhikrText" class="dhikr-text"></div>
+        <div id="dhikrNote" class="dhikr-note"></div>
+      </div>
+      <div class="footer-actions">
+        <button id="counterBtn" class="counter-btn" type="button" onclick="registerRepeat()">
+          <span>التكرار المتبقي:</span>
+          <strong id="remainingCount">1</strong>
+        </button>
+        <button id="nextBtn" class="next-btn" type="button" onclick="nextDhikr()">التالي</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/adhkar-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
