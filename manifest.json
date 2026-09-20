@@ -1,0 +1,37 @@
+{
+  "name": "حصن المسلم",
+  "short_name": "حصن المسلم",
+  "id": "/",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#070d0b",
+  "theme_color": "#0b1611",
+  "description": "أذكار الصباح والمساء وحصن المسلم، يعمل بدون إنترنت بعد التثبيت",
+  "orientation": "any",
+  "dir": "rtl",
+  "lang": "ar",
+  "prefer_related_applications": false,
+  "categories": ["lifestyle", "education"],
+  "icons": [
+    {
+      "src": "icons/adhkar-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/adhkar-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/adhkar-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

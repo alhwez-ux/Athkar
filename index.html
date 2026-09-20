@@ -2,7 +2,16 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="أذكار الصباح والمساء وحصن المسلم، يعمل بدون إنترنت بعد التثبيت" />
+  <meta name="theme-color" content="#0b1611" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="حصن المسلم" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/adhkar-logo.png" />
+  <link rel="icon" type="image/png" href="icons/adhkar-logo.png" />
   <title>حصن المسلم</title>
   <script>
     (function () {
@@ -76,13 +85,22 @@
     html, body {
       margin: 0;
       min-height: 100%;
+      height: 100%;
     }
     body {
       font-family: 'Cairo', sans-serif;
       color: var(--text);
       min-height: 100vh;
+      min-height: 100dvh;
       background: radial-gradient(circle at center, var(--bg0) 0%, var(--bg1) 100%);
       transition: background 0.35s ease, color 0.25s ease;
+    }
+    .page-bg {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .bg-dots {
       position: fixed;
@@ -92,10 +110,31 @@
       opacity: 0.12;
       pointer-events: none;
     }
+    .app-shell {
+      width: 100%;
+      max-width: 28rem;
+      min-height: 100vh;
+      min-height: 100dvh;
+      height: 100vh;
+      height: 100dvh;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 520px) {
+      .page-bg { padding: 1.4rem 1rem; }
+      .app-shell {
+        min-height: min(52.5rem, calc(100dvh - 2.8rem));
+        height: min(52.5rem, calc(100dvh - 2.8rem));
+        border-radius: 1.85rem;
+        border: 1px solid var(--card-border);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+        background: radial-gradient(circle at center, var(--bg0) 0%, var(--bg1) 100%);
+      }
+    }
     .theme-fab {
-      position: fixed;
-      top: 0.9rem;
-      left: 0.9rem;
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
       z-index: 40;
       display: flex;
       gap: 0.25rem;
@@ -122,18 +161,19 @@
     }
     .view {
       width: 100%;
-      max-width: 28rem;
+      height: 100%;
+      min-height: 100%;
       margin: 0 auto;
-      padding: 1.25rem;
-      min-height: 100vh;
+      padding: 3.4rem 1.15rem 1.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow-y: auto;
     }
     .view.list-view {
       align-items: flex-start;
-      padding-top: 1.5rem;
-      padding-bottom: 2rem;
+      padding-top: 3.4rem;
+      padding-bottom: 1.5rem;
     }
     .center-enter {
       opacity: 0;
@@ -163,9 +203,9 @@
       width: 100%;
     }
     .logo-circle {
-      width: 7.6rem;
-      height: 7.6rem;
-      margin: 0 auto 1rem;
+      width: 6.6rem;
+      height: 6.6rem;
+      margin: 0 auto 0.85rem;
       border-radius: 50%;
       overflow: hidden;
       border: 3px solid var(--logo-ring);
@@ -369,7 +409,7 @@
       font-weight: 700;
     }
     #dhikrView {
-      position: fixed;
+      position: absolute;
       inset: 0;
       z-index: 20;
       max-width: none;
@@ -377,70 +417,224 @@
     #dhikrView .glass-card {
       max-width: 36rem;
     }
+    .home-footer {
+      margin-top: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .action-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.8rem 1rem;
+      border-radius: 1rem;
+      text-decoration: none;
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .action-btn:active { transform: scale(0.97); }
+    .action-btn.hidden { display: none !important; }
+    .action-icon {
+      width: 2.15rem;
+      height: 2.15rem;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .action-icon img,
+    .action-icon svg {
+      width: 2.15rem;
+      height: 2.15rem;
+      display: block;
+    }
+    .action-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1.35;
+    }
+    .action-text strong {
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+    .action-text small {
+      font-size: 0.74rem;
+      font-weight: 600;
+      opacity: 0.86;
+    }
+    .install-btn {
+      background: linear-gradient(90deg, #0f766e, #047857);
+      color: #fff;
+      border-color: rgba(212, 175, 55, 0.28);
+    }
+    .whatsapp-btn {
+      background: #128C7E;
+      color: #fff;
+    }
+    .toast {
+      position: absolute;
+      bottom: 1.1rem;
+      left: 1rem;
+      right: 1rem;
+      z-index: 50;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      border-radius: 0.9rem;
+      background: var(--fab-bg);
+      border: 1px solid var(--fab-border);
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    }
+    .sheet {
+      position: absolute;
+      inset: 0;
+      z-index: 45;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.42);
+      padding: 1rem;
+    }
+    .sheet-card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 1.2rem;
+      padding: 1.2rem 1.1rem 1.15rem;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.28);
+    }
+    .sheet-card h3 {
+      margin: 0 0 0.55rem;
+      text-align: center;
+      color: var(--orange);
+      font-size: 1.05rem;
+    }
+    .sheet-card p {
+      margin: 0 0 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-weight: 600;
+      line-height: 1.8;
+    }
+    .sheet-card button {
+      width: 100%;
+      border: 0;
+      border-radius: 0.8rem;
+      padding: 0.8rem;
+      font: inherit;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(90deg, #f59e0b, #d97706);
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="bg-dots"></div>
-  <div class="theme-fab" role="group" aria-label="اختيار الوضع">
-    <button id="dayBtn" type="button" onclick="setTheme('light')">نهاري</button>
-    <button id="nightBtn" type="button" onclick="setTheme('dark')">ليلي</button>
-  </div>
-
-  <div id="homeView" class="view center-active">
-    <div class="glass-card">
-      <div class="logo-circle">
-        <img src="icons/adhkar-logo.png?v=3" alt="أذكاري" width="180" height="180" />
+  <div class="page-bg">
+    <div class="bg-dots"></div>
+    <div class="app-shell">
+      <div class="theme-fab" role="group" aria-label="اختيار الوضع">
+        <button id="dayBtn" type="button" onclick="setTheme('light')">نهاري</button>
+        <button id="nightBtn" type="button" onclick="setTheme('dark')">ليلي</button>
       </div>
-      <h1 class="brand-title">حصن المسلم</h1>
-      <p id="timeSuggestion" class="time-line">جاري تحديد الوقت الأنسب لك...</p>
-      <div class="menu">
-        <button id="morningBtn" class="menu-btn" type="button" onclick="selectSection('morning')">
-          <span>أذكار الصباح</span>
-          <span id="morningBadge" class="badge hidden">الوقت الحالي</span>
-        </button>
-        <button id="eveningBtn" class="menu-btn" type="button" onclick="selectSection('evening')">
-          <span>أذكار المساء</span>
-          <span id="eveningBadge" class="badge hidden">الوقت الحالي</span>
-        </button>
-        <button class="menu-btn" type="button" onclick="openOthers()">
-          <span>أذكار أخرى</span>
-          <span class="badge">الفهرس</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
-  <div id="otherView" class="view list-view center-enter hidden">
-    <div class="glass-card">
-      <div class="top-bar">
-        <button class="ghost-btn" type="button" onclick="backToHome()">← الرجوع</button>
-        <h2 class="section-title">أذكار أخرى</h2>
-      </div>
-      <div id="otherList" class="other-list"></div>
-    </div>
-  </div>
-
-  <div id="dhikrView" class="view center-enter hidden">
-    <div class="glass-card dhikr-card">
-      <div>
-        <div class="top-bar">
-          <button class="ghost-btn" type="button" onclick="backFromDhikr()">✕ الخروج</button>
-          <span id="dhikrIndexBadge" class="index-badge">1 / 1</span>
+      <div id="homeView" class="view center-active">
+        <div class="glass-card">
+          <div class="logo-circle">
+            <img src="icons/adhkar-logo.png?v=3" alt="أذكاري" width="180" height="180" />
+          </div>
+          <h1 class="brand-title">حصن المسلم</h1>
+          <p id="timeSuggestion" class="time-line">جاري تحديد الوقت الأنسب لك...</p>
+          <div class="menu">
+            <button id="morningBtn" class="menu-btn" type="button" onclick="selectSection('morning')">
+              <span>أذكار الصباح</span>
+              <span id="morningBadge" class="badge hidden">الوقت الحالي</span>
+            </button>
+            <button id="eveningBtn" class="menu-btn" type="button" onclick="selectSection('evening')">
+              <span>أذكار المساء</span>
+              <span id="eveningBadge" class="badge hidden">الوقت الحالي</span>
+            </button>
+            <button class="menu-btn" type="button" onclick="openOthers()">
+              <span>أذكار أخرى</span>
+              <span class="badge">الفهرس</span>
+            </button>
+          </div>
+          <div class="home-footer">
+            <button id="installBtn" class="action-btn install-btn" type="button" onclick="installApp()">
+              <span class="action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <rect x="6" y="2.5" width="12" height="19" rx="2.4" stroke="#FDE68A" stroke-width="1.7"/>
+                  <path d="M12 7.2v7.1M9.2 11.6 12 14.5l2.8-2.9" stroke="#FDE68A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="action-text">
+                <strong>ثبّت التطبيق على جهازك</strong>
+                <small>يعمل بدون إنترنت على الجوال والحاسوب</small>
+              </span>
+            </button>
+            <a class="action-btn whatsapp-btn" href="https://wa.me/966555748375?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%A3%D9%88%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D8%AF%D8%B9%D9%85%D9%8B%D8%A7%20%D9%81%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%AD%D8%B5%D9%86%20%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85" target="_blank" rel="noopener noreferrer" aria-label="للاستفسار والدعم عبر واتساب">
+              <span class="action-icon" aria-hidden="true">
+                <img src="icons/whatsapp.svg" alt="" width="40" height="40" />
+              </span>
+              <span class="action-text">
+                <strong>للاستفسار والدعم</strong>
+                <small>تواصل معنا عبر واتساب</small>
+              </span>
+            </a>
+          </div>
         </div>
-        <p id="dhikrTitle" class="dhikr-title"></p>
-        <div id="dhikrText" class="dhikr-text"></div>
-        <div id="dhikrNote" class="dhikr-note"></div>
       </div>
-      <div class="footer-actions">
-        <button id="counterBtn" class="counter-btn" type="button" onclick="registerRepeat()">
-          <span>التكرار المتبقي:</span>
-          <strong id="remainingCount">1</strong>
-        </button>
-        <button id="nextBtn" class="next-btn" type="button" onclick="nextDhikr()">التالي</button>
+
+      <div id="otherView" class="view list-view center-enter hidden">
+        <div class="glass-card">
+          <div class="top-bar">
+            <button class="ghost-btn" type="button" onclick="backToHome()">← الرجوع</button>
+            <h2 class="section-title">أذكار أخرى</h2>
+          </div>
+          <div id="otherList" class="other-list"></div>
+        </div>
       </div>
+
+      <div id="dhikrView" class="view center-enter hidden">
+        <div class="glass-card dhikr-card">
+          <div>
+            <div class="top-bar">
+              <button class="ghost-btn" type="button" onclick="backFromDhikr()">✕ الخروج</button>
+              <span id="dhikrIndexBadge" class="index-badge">1 / 1</span>
+            </div>
+            <p id="dhikrTitle" class="dhikr-title"></p>
+            <div id="dhikrText" class="dhikr-text"></div>
+            <div id="dhikrNote" class="dhikr-note"></div>
+          </div>
+          <div class="footer-actions">
+            <button id="counterBtn" class="counter-btn" type="button" onclick="registerRepeat()">
+              <span>التكرار المتبقي:</span>
+              <strong id="remainingCount">1</strong>
+            </button>
+            <button id="nextBtn" class="next-btn" type="button" onclick="nextDhikr()">التالي</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="installSheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="installSheetTitle">
+        <div class="sheet-card">
+          <h3 id="installSheetTitle">ثبّت التطبيق على جهازك</h3>
+          <p id="installSheetText"></p>
+          <button type="button" onclick="closeInstallSheet()">حسناً</button>
+        </div>
+      </div>
+      <div id="toast" class="toast hidden" role="status"></div>
     </div>
   </div>
 
+  <script src="js/pwa.js"></script>
   <script src="js/adhkar-data.js"></script>
   <script src="js/app.js"></script>
 </body>

@@ -134,9 +134,61 @@
       .join("");
   }
 
+  const installBtn = document.getElementById("installBtn");
+  const installSheet = document.getElementById("installSheet");
+  const installSheetText = document.getElementById("installSheetText");
+  const toast = document.getElementById("toast");
+  let toastTimer = 0;
+
+  function showToast(message) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.add("hidden"), 2800);
+  }
+
+  function refreshInstallButton() {
+    const pwa = window.athkarPwa;
+    if (!installBtn || !pwa) return;
+    installBtn.classList.toggle("hidden", pwa.isInstalled());
+  }
+
+  window.installApp = async function () {
+    const pwa = window.athkarPwa;
+    if (!pwa) return;
+    if (pwa.canInstall()) {
+      const accepted = await pwa.install();
+      refreshInstallButton();
+      showToast(accepted ? "تم تثبيت التطبيق على الجهاز" : "يمكنك التثبيت لاحقاً من نفس الزر");
+      return;
+    }
+    if (installSheet && installSheetText) {
+      installSheetText.textContent = pwa.isIos()
+        ? "في سفاري: اضغط مشاركة ثم «إضافة إلى الشاشة الرئيسية» لتثبيت التطبيق."
+        : "من شريط العنوان اختر أيقونة التثبيت أو قائمة المتصفح ثم «تثبيت التطبيق».";
+      installSheet.classList.remove("hidden");
+    }
+  };
+
+  window.closeInstallSheet = function () {
+    if (installSheet) installSheet.classList.add("hidden");
+  };
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  }
+
+  window.addEventListener("athkar-install-available", refreshInstallButton);
+  window.addEventListener("athkar-installed", () => {
+    refreshInstallButton();
+    showToast("تم تثبيت التطبيق على الجهاز");
+  });
+
   window.addEventListener("DOMContentLoaded", () => {
     renderOtherList();
     applyTheme(getPreferredTheme());
+    refreshInstallButton();
     const hour = new Date().getHours();
     const morningBadge = document.getElementById("morningBadge");
     const eveningBadge = document.getElementById("eveningBadge");
