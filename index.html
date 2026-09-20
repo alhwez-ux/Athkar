@@ -99,8 +99,9 @@
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
+      padding-top: 0.55rem;
     }
     .bg-dots {
       position: fixed;
@@ -121,10 +122,10 @@
       overflow: hidden;
     }
     @media (min-width: 520px) {
-      .page-bg { padding: 1.4rem 1rem; }
+      .page-bg { padding: 0.55rem 1rem 1.4rem; }
       .app-shell {
-        min-height: min(52.5rem, calc(100dvh - 2.8rem));
-        height: min(52.5rem, calc(100dvh - 2.8rem));
+        min-height: min(50.5rem, calc(100dvh - 1.6rem));
+        height: min(50.5rem, calc(100dvh - 1.6rem));
         border-radius: 1.85rem;
         border: 1px solid var(--card-border);
         box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
@@ -132,12 +133,11 @@
       }
     }
     .theme-fab {
-      position: absolute;
-      top: 0.75rem;
-      left: 0.75rem;
-      z-index: 40;
       display: flex;
+      justify-content: center;
       gap: 0.25rem;
+      margin: 0 auto 0.85rem;
+      width: fit-content;
       padding: 0.25rem;
       border-radius: 999px;
       border: 1px solid var(--fab-border);
@@ -164,15 +164,14 @@
       height: 100%;
       min-height: 100%;
       margin: 0 auto;
-      padding: 3.4rem 1.15rem 1.2rem;
+      padding: 0.9rem 1.15rem 1.1rem;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       overflow-y: auto;
     }
     .view.list-view {
-      align-items: flex-start;
-      padding-top: 3.4rem;
+      padding-top: 0.9rem;
       padding-bottom: 1.5rem;
     }
     .center-enter {
@@ -301,14 +300,8 @@
       flex: 1;
       line-height: 1.6;
     }
-    .top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 0.85rem;
-      margin-bottom: 1rem;
+    .top-bar .theme-fab {
+      margin: 0;
     }
     .ghost-btn {
       background: none;
@@ -418,19 +411,22 @@
       max-width: 36rem;
     }
     .home-footer {
-      margin-top: 0.9rem;
+      margin-top: 0.85rem;
       display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0.5rem;
     }
     .action-btn {
-      width: 100%;
+      flex: 1;
+      min-width: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
-      padding: 0.8rem 1rem;
-      border-radius: 1rem;
+      gap: 0.28rem;
+      padding: 0.55rem 0.35rem 0.5rem;
+      border-radius: 0.9rem;
       text-decoration: none;
       font: inherit;
       cursor: pointer;
@@ -440,8 +436,8 @@
     .action-btn:active { transform: scale(0.97); }
     .action-btn.hidden { display: none !important; }
     .action-icon {
-      width: 2.15rem;
-      height: 2.15rem;
+      width: 1.45rem;
+      height: 1.45rem;
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
@@ -449,22 +445,22 @@
     }
     .action-icon img,
     .action-icon svg {
-      width: 2.15rem;
-      height: 2.15rem;
+      width: 1.45rem;
+      height: 1.45rem;
       display: block;
     }
     .action-text {
       display: flex;
       flex-direction: column;
       align-items: center;
-      line-height: 1.35;
+      line-height: 1.25;
     }
     .action-text strong {
-      font-size: 0.95rem;
+      font-size: 0.7rem;
       font-weight: 800;
     }
     .action-text small {
-      font-size: 0.74rem;
+      font-size: 0.58rem;
       font-weight: 600;
       opacity: 0.86;
     }
@@ -540,13 +536,12 @@
   <div class="page-bg">
     <div class="bg-dots"></div>
     <div class="app-shell">
-      <div class="theme-fab" role="group" aria-label="اختيار الوضع">
-        <button id="dayBtn" type="button" onclick="setTheme('light')">نهاري</button>
-        <button id="nightBtn" type="button" onclick="setTheme('dark')">ليلي</button>
-      </div>
-
       <div id="homeView" class="view center-active">
         <div class="glass-card">
+          <div class="theme-fab" role="group" aria-label="اختيار الوضع">
+            <button class="theme-day" type="button" onclick="setTheme('light')">نهاري</button>
+            <button class="theme-night" type="button" onclick="setTheme('dark')">ليلي</button>
+          </div>
           <div class="logo-circle">
             <img src="icons/adhkar-logo.png?v=3" alt="أذكاري" width="180" height="180" />
           </div>
@@ -575,8 +570,8 @@
                 </svg>
               </span>
               <span class="action-text">
-                <strong>ثبّت التطبيق على جهازك</strong>
-                <small>يعمل بدون إنترنت على الجوال والحاسوب</small>
+                <strong>ثبّت التطبيق</strong>
+                <small>يعمل بدون إنترنت</small>
               </span>
             </button>
             <a class="action-btn whatsapp-btn" href="https://wa.me/966555748375?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D9%84%D8%AF%D9%8A%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%A3%D9%88%20%D8%A3%D8%AD%D8%AA%D8%A7%D8%AC%20%D8%AF%D8%B9%D9%85%D9%8B%D8%A7%20%D9%81%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%20%D8%AD%D8%B5%D9%86%20%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85" target="_blank" rel="noopener noreferrer" aria-label="للاستفسار والدعم عبر واتساب">
@@ -585,7 +580,7 @@
               </span>
               <span class="action-text">
                 <strong>للاستفسار والدعم</strong>
-                <small>تواصل معنا عبر واتساب</small>
+                <small>عبر واتساب</small>
               </span>
             </a>
           </div>
@@ -596,6 +591,10 @@
         <div class="glass-card">
           <div class="top-bar">
             <button class="ghost-btn" type="button" onclick="backToHome()">← الرجوع</button>
+            <div class="theme-fab" role="group" aria-label="اختيار الوضع">
+              <button class="theme-day" type="button" onclick="setTheme('light')">نهاري</button>
+              <button class="theme-night" type="button" onclick="setTheme('dark')">ليلي</button>
+            </div>
             <h2 class="section-title">أذكار أخرى</h2>
           </div>
           <div id="otherList" class="other-list"></div>
@@ -607,6 +606,10 @@
           <div>
             <div class="top-bar">
               <button class="ghost-btn" type="button" onclick="backFromDhikr()">✕ الخروج</button>
+              <div class="theme-fab" role="group" aria-label="اختيار الوضع">
+                <button class="theme-day" type="button" onclick="setTheme('light')">نهاري</button>
+                <button class="theme-night" type="button" onclick="setTheme('dark')">ليلي</button>
+              </div>
               <span id="dhikrIndexBadge" class="index-badge">1 / 1</span>
             </div>
             <p id="dhikrTitle" class="dhikr-title"></p>

@@ -218,12 +218,12 @@
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
-    const dayBtn = document.getElementById("dayBtn");
-    const nightBtn = document.getElementById("nightBtn");
-    if (dayBtn && nightBtn) {
-      dayBtn.classList.toggle("is-on", theme === "light");
-      nightBtn.classList.toggle("is-on", theme === "dark");
-    }
+    document.querySelectorAll(".theme-day").forEach((btn) => {
+      btn.classList.toggle("is-on", theme === "light");
+    });
+    document.querySelectorAll(".theme-night").forEach((btn) => {
+      btn.classList.toggle("is-on", theme === "dark");
+    });
   }
 
   window.setTheme = function (theme) {
